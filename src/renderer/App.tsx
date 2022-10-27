@@ -1,9 +1,8 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
 import './App.css';
-import { Hello } from './components/Hello';
 import Login from './components/Login';
 import Registration from './components/Registration';
+import MainMessaging from './components/MainMessaging';
 
 export default function App() {
   return (
@@ -11,6 +10,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Registration />} />
+        <Route path="/main" element={<MainMessaging />} />
       </Routes>
     </Router>
   );

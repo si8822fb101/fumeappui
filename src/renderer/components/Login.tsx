@@ -10,7 +10,7 @@ export default function Login() {
 
   const handleLogin = (event: any) => {
     event.preventDefault();
-    setMessage(`Username logged in: ${username}`);
+    navigate('/main');
   };
 
   return (
@@ -32,8 +32,8 @@ export default function Login() {
         onChange={(event) => setUsername(event.target.value)}
       />
       <Input
-        placeholder="Username"
-        type="text"
+        placeholder="Pin"
+        type="password"
         value={pin}
         onChange={(event) => setPin(event.target.value)}
       />
