@@ -1,12 +1,16 @@
-import { Icon, Sidebar, Menu } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Icon, Sidebar, Menu, Button } from 'semantic-ui-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function MainMenu(props: any) {
-  const { chats } = props;
+  const { chats, setActiveChat } = props;
+  const navigate = useNavigate();
+  const onMenuItemClick = (e, { name }) => {
+    navigate('/messaging');
+  };
   const menuItems = chats.map((user: string) => {
     return (
-      <Menu.Item as={Link} to="/messaging" state={{ recipient: user }}>
+      <Menu.Item name={user} onClick={onMenuItemClick}>
         {user}
       </Menu.Item>
     );

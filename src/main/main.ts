@@ -9,7 +9,8 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import * as os from 'os';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -29,6 +30,34 @@ ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
+});
+
+ipcMain.on('open-file-dialog-for-file', function (event) {
+  if (os.platform() === 'linux' || os.platform() === 'win32') {
+    dialog
+      .showOpenDialog(
+        {
+          properties: ['openFile'],
+        },
+        function (files) {}
+      )
+      .then((files) => {
+        if (files.filePaths.length !== 0)
+          event.sender.send('selected-file', files.filePaths[0]);
+      });
+  } else {
+    dialog
+      .showOpenDialog(
+        {
+          properties: ['openFile', 'openDirectory'],
+        },
+        function (files) {}
+      )
+      .then((files) => {
+        if (files.filePaths.length !== 0)
+          event.sender.send('selected-file', files.filePaths[0]);
+      });
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -78,6 +107,8 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      // nodeIntegration: true,
+      // contextIsolation: false,
     },
   });
 
