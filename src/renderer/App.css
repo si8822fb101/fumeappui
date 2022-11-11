@@ -19,6 +19,9 @@
 /*  align-items: center;*/
 /*}*/
 
+#root{
+  height: 100%;
+}
 button:hover {
   transform: scale(1.05);
   opacity: 1;

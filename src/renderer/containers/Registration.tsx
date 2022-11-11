@@ -11,11 +11,10 @@ export default function Registration() {
   const userData = useContext(userContext);
   const handleRegistration = (event: any) => {
     event.preventDefault();
-    userData.login({
-      isLoggedIn: true,
+    userData.register({
       username,
+      pin,
     });
-    navigate('/messaging');
   };
 
   return (
