@@ -42,8 +42,9 @@ ipcMain.on('open-file-dialog-for-file', function (event) {
         function (files) {}
       )
       .then((files) => {
-        if (files.filePaths.length !== 0)
+        if (files.filePaths.length !== 0) {
           event.sender.send('selected-file', files.filePaths[0]);
+        }
       });
   } else {
     dialog
@@ -54,10 +55,15 @@ ipcMain.on('open-file-dialog-for-file', function (event) {
         function (files) {}
       )
       .then((files) => {
-        if (files.filePaths.length !== 0)
+        if (files.filePaths.length !== 0) {
           event.sender.send('selected-file', files.filePaths[0]);
+        }
       });
   }
+});
+
+ipcMain.on('open-folder-dialog', (event, filepath) => {
+  shell.openPath(filepath);
 });
 
 if (process.env.NODE_ENV === 'production') {

@@ -15,12 +15,12 @@ export default function NewChat(props: any) {
     // });
     event.preventDefault();
     addNewChat(newUsername);
-    navigate('/messaging', { state: { recipient: newUsername } });
+    navigate('/messaging', { state: { activeChat: newUsername } });
   };
   return (
-    <Grid>
+    <Grid container>
       <Grid.Row>
-        <h1>Chat with a new User</h1>
+        <h1>New Channel</h1>
       </Grid.Row>
       <Grid.Row>
         <Form>

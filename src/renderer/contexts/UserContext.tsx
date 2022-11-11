@@ -7,6 +7,7 @@ const UserContext = createContext({
   },
   login(data: any) {},
   logout(data: any) {},
+  register(data: any) {},
 });
 
 export default UserContext;

@@ -12,33 +12,25 @@ import {
 import { useLocation } from 'react-router-dom';
 import { ipcRenderer } from 'electron';
 import { Value } from 'sass';
+import { get } from 'lodash';
 import MessageList from '../components/MessageList';
 import userContext from '../contexts/UserContext';
 import { getFileName } from '../util/FileHandler';
 
 export default function MessagingBox(props: any) {
-  const { activeChat } = props;
+  const { state } = useLocation();
   const [newMessage, setNewMessage] = useState({});
   const [formMessage, setFormMessage] = useState('');
   const [messages, setMessages] = useState([{}]);
   const [newFile, setNewFile] = useState({});
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const chatUser = activeChat;
+  const chatUser = get(state, 'activeChat', '');
   const context = useContext(userContext);
 
-  useEffect(() => {
-    window.electron.ipcRenderer.on(
-      'selected-file',
-      function (filePath: string) {
-        setNewFile({
-          sender: context.user.username,
-          content: getFileName(filePath),
-          path: filePath,
-        });
-        setConfirmationOpen(true);
-      }
-    );
-  }, []);
+  const updateMessages = () => {
+    // get messages from api
+    setMessages([{}]);
+  };
 
   const sendMessage = () => {
     if (Object.keys(newFile).length !== 0) {
@@ -61,7 +53,7 @@ export default function MessagingBox(props: any) {
   };
 
   const fileUploadClick = () => {
-    window.electron.ipcRenderer.sendMessage('open-file-dialog-for-file');
+    window.electron.ipcRenderer.sendMessage('open-file-dialog-for-file', []);
   };
 
   const onMessageChange = (value) => {
@@ -69,24 +61,45 @@ export default function MessagingBox(props: any) {
     setFormMessage(value);
   };
 
+  useEffect(() => {
+    window.electron.ipcRenderer.on(
+      'selected-file',
+      function (filePath: string) {
+        setNewFile({
+          sender: context.user.username,
+          content: getFileName(filePath),
+          path: filePath,
+        });
+        setConfirmationOpen(true);
+      }
+    );
+    updateMessages();
+  }, []);
+
   return (
-    <Grid container columns={1}>
-      <Grid.Row columns={1}>
+    <Grid container columns={1} style={{ height: '100%' }}>
+      <Grid.Row columns={1} style={{ height: '5%' }}>
         <h1>Chat with {chatUser}</h1>
       </Grid.Row>
-      <Grid.Row columns={1}>
+      <Grid.Row columns={1} style={{ height: '90%' }}>
         <Grid.Column width={16}>
-          <MessageList messages={messages} />
+          <Segment style={{ height: '100%' }}>
+            <MessageList messages={messages} style={{ overflow: 'auto' }} />
+          </Segment>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row columns={3}>
+      <Grid.Row columns={3} style={{ height: '5%' }}>
         <Grid.Column width={2}>
           <Confirm
             open={confirmationOpen}
             onCancel={fileUploadCancel}
             onConfirm={fileUploadConfirm}
           />
-          <Button onClick={fileUploadClick}>
+          <Button
+            onClick={() => {
+              fileUploadClick();
+            }}
+          >
             <Icon name="upload" />
           </Button>
         </Grid.Column>

@@ -8,10 +8,8 @@ export default function Settings(props) {
   const navigate = useNavigate();
   const userLogout = () => {
     context.logout({
-      isLoggedIn: false,
-      username: '',
+      username: context.user.username,
     });
-    navigate('/');
   };
 
   return (
