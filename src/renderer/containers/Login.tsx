@@ -19,8 +19,8 @@ export default function Login() {
   };
 
   return (
-    <Grid container columns={1} verticalAlign="middle">
-      <Grid.Column>
+    <Grid container columns={1}>
+      <Grid.Column verticalAlign="middle" width={8}>
         <Grid.Row>
           <h1>FUME</h1>
         </Grid.Row>
