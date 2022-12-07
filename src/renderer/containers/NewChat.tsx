@@ -5,17 +5,10 @@ import { useNavigate } from 'react-router-dom';
 export default function NewChat(props: any) {
   const { addNewChat } = props;
   const [newUsername, setNewUsername] = useState('');
-  const navigate = useNavigate();
 
   const createNewChat = (event: any) => {
-    // const response = await fetch(`/api/newChat`, {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ newUsername }),
-    // });
-    event.preventDefault();
     addNewChat(newUsername);
-    navigate('/messaging', { state: { activeChat: newUsername } });
+    event.preventDefault();
   };
   return (
     <Grid container>

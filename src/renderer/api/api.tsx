@@ -24,3 +24,12 @@ export const logoutUser = async (username: string) => {
   });
   return response;
 };
+
+export const newChat = async (username: string) => {
+  const response = await fetch(`http://localhost:8080/messaging/newChat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username }),
+  });
+  return response;
+};

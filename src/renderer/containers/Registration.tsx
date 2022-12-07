@@ -19,7 +19,7 @@ export default function Registration() {
 
   return (
     <Grid container columns={1}>
-      <Grid.Column verticalAlign="middle">
+      <Grid.Column verticalAlign="middle" width={8}>
         <Grid.Row>
           <h1>FUME</h1>
         </Grid.Row>
