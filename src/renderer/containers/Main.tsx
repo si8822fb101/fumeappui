@@ -29,6 +29,8 @@ export default function Main() {
     username: 'User',
   });
 
+  const [activeChat, setActiveChat] = useState('');
+
   const clearMessage = () => {
     setMessage('');
   };
@@ -104,18 +106,17 @@ export default function Main() {
     newChat(username)
       .then((response) => {
         if (response.ok) {
-          setUser({
-            isLoggedIn: false,
-            username: '',
-          });
           response
             .json()
             .then((data) => {
               if (data as boolean) {
                 setChats((prevChats) => [...prevChats, username]);
-                navigate('/messaging', { state: { activeChat: username } });
+                setActiveChat(username);
+                navigate('/messaging', { state: { activeChat: user } });
               } else {
-                addErrorMessage('User does not exist');
+                setChats((prevChats) => [...prevChats, username]);
+                setActiveChat(username);
+                navigate('/messaging', { state: { activeChat: user } });
               }
               return '';
             })
@@ -142,7 +143,7 @@ export default function Main() {
         <Grid.Row style={{ height: '80%' }}>
           {user.isLoggedIn ? (
             <Grid.Column width={4}>
-              <MainMenu chats={chats} />
+              <MainMenu chats={chats} setActiveChat={setActiveChat} />
             </Grid.Column>
           ) : (
             <></>
@@ -163,7 +164,7 @@ export default function Main() {
                   chats.length < 1 ? (
                     <NewChat addNewChat={addNewChat} />
                   ) : (
-                    <MessagingBox />
+                    <MessagingBox activeChat={activeChat} />
                   )
                 }
               />

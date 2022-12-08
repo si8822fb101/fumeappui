@@ -19,12 +19,12 @@ import { getFileName } from '../util/FileHandler';
 
 export default function MessagingBox(props: any) {
   const { state } = useLocation();
+  const { activeChat } = props;
   const [newMessage, setNewMessage] = useState({});
   const [formMessage, setFormMessage] = useState('');
   const [messages, setMessages] = useState([{}]);
   const [newFile, setNewFile] = useState({});
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const chatUser = get(state, 'activeChat', '');
   const context = useContext(userContext);
 
   const updateMessages = () => {
@@ -79,7 +79,7 @@ export default function MessagingBox(props: any) {
   return (
     <Grid container columns={1} style={{ height: '100%' }}>
       <Grid.Row columns={1} style={{ height: '5%' }}>
-        <h1>Chat with {chatUser}</h1>
+        <h1>Chat with {activeChat}</h1>
       </Grid.Row>
       <Grid.Row columns={1} style={{ height: '90%' }}>
         <Grid.Column width={16}>
