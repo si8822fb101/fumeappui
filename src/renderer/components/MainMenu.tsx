@@ -7,7 +7,13 @@ export default function MainMenu(props: any) {
   const navigate = useNavigate();
   const menuItems = chats.map((user: string) => {
     return (
-      <Menu.Item as={Link} to="/messaging" state={{ activeChat: user }}>
+      <Menu.Item
+        as={Link}
+        onClick={() => {
+          setActiveChat(user);
+          navigate('/messaging');
+        }}
+      >
         {user}
       </Menu.Item>
     );
